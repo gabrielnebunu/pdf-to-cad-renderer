@@ -9,7 +9,8 @@ Pillow==10.3.0
 scipy==1.13.0             # skimage deskew helpers
 
 # Vectorization
-potracer==1.0.7           # pure Python potrace — raster to SVG
+# potracer==0.0.4  <- correct version (no 1.0.7 exists), see vectorizer.py
+potracer==0.0.4           # pure Python potrace — raster to SVG
 svgpathtools==1.6.1       # parse/manipulate SVG paths
 cairosvg==2.7.1           # SVG ↔ PDF/PNG conversion
 

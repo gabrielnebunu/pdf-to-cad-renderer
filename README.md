@@ -2,21 +2,23 @@
 
 Convert PDF schematics to production-ready CAD files (DXF/SVG) using computer vision, vectorization, and `ezdxf`.
 
-Built with **Python 3.11+** backend + **Next.js** frontend. Developed in VS Code with Claude.
+Built with **Python 3.10+** backend + **Next.js** frontend. Developed in VS Code with Claude.
+
+> **Windows users:** See [WINDOWS_SETUP.md](./WINDOWS_SETUP.md) for step-by-step instructions.
 
 ---
 
-## 🔑 Key Repos Used (as submodules / dependencies)
+## 🔑 Key Repos Used
 
 | Library / Repo | Role |
 |---|---|
 | [ezdxf](https://github.com/mozman/ezdxf) | Generate & write DXF CAD files |
 | [mjecke/pyPDFtoDXF](https://github.com/mjecke/pyPDFtoDXF) | Reference: PDF vector → DXF via Inkscape/pdf2svg |
 | [naufraghi/pdf2dxf](https://github.com/naufraghi/pdf2dxf) | Reference: pdfalto + dxfwrite pipeline |
-| [surveyorstories/pdfextract](https://github.com/surveyorstories/pdfextract) | PDF → DXF converter (QGIS plugin / standalone) |
+| [surveyorstories/pdfextract](https://github.com/surveyorstories/pdfextract) | PDF → DXF converter (standalone) |
 | [tatarize/potrace](https://github.com/tatarize/potrace) | Pure Python Potrace — raster → vector tracing |
 | [Adam-CAD/CADAM](https://github.com/Adam-CAD/CADAM) | CAD automation reference |
-| [Kozea/CairoSVG](https://github.com/Kozea/CairoSVG) | SVG → PDF/PNG conversion |
+| [Kozea/CairoSVG](https://github.com/Kozea/CairoSVG) | SVG ↔ PDF/PNG conversion |
 | [aspose-cad/Aspose.CAD-for-Python](https://github.com/aspose-cad/Aspose.CAD-for-Python) | Advanced CAD format support (DWG/DXF/IFC) |
 
 ---
@@ -35,35 +37,41 @@ pdf-to-cad-renderer/
 │   ├── main.py                # FastAPI app
 │   └── requirements.txt
 ├── frontend/             # Next.js UI
-│   ├── app/
-│   │   └── page.tsx
-│   └── package.json
 ├── examples/             # Sample schematics for testing
-├── .env.example
+├── WINDOWS_SETUP.md      # ← Windows users start here
 ├── docker-compose.yml
-└── README.md
+└── CLAUDE.md             # Instructions for Claude Code in VS Code
 ```
 
 ---
 
 ## ⚡ Quick Start
 
-```bash
-# 1. Clone
+### Windows (PowerShell)
+```powershell
 git clone https://github.com/gabrielnebunu/pdf-to-cad-renderer
-cd pdf-to-cad-renderer
-
-# 2. Backend
-cd backend
+cd pdf-to-cad-renderer\backend
 pip install -r requirements.txt
-uvicorn main:app --reload
 
-# 3. Frontend (separate terminal)
+# Run backend (use python -m, not just uvicorn)
+python -m uvicorn main:app --reload
+```
+
+### Linux / macOS
+```bash
+git clone https://github.com/gabrielnebunu/pdf-to-cad-renderer
+cd pdf-to-cad-renderer/backend
+pip install -r requirements.txt
+apt install potrace ghostscript   # or brew install potrace
+uvicorn main:app --reload
+```
+
+### Frontend
+```powershell
 cd frontend
 npm install
 npm run dev
 ```
-
 Visit `http://localhost:3000` — upload a PDF schematic, download DXF.
 
 ---
@@ -75,15 +83,3 @@ Visit `http://localhost:3000` — upload a PDF schematic, download DXF.
 3. **Vectorize** — Potrace traces raster to clean SVG bezier/line paths
 4. **Build DXF** — ezdxf maps SVG entities to DXF LWPOLYLINE, LINE, ARC, CIRCLE, TEXT
 5. **Export** — DXF (AutoCAD/FreeCAD ready), SVG, or clean PDF
-
----
-
-## 📦 External Tools (system-level)
-
-```bash
-# Ubuntu/Debian
-apt install potrace inkscape pdf2svg ghostscript
-
-# Windows (choco)
-choco install inkscape ghostscript
-```
