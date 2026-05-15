@@ -1,0 +1,16 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+.env
+venv/
+.venv/
+node_modules/
+.next/
+*.log
+*.dxf
+*.svg
+*.png
+!examples/
+tmp/
